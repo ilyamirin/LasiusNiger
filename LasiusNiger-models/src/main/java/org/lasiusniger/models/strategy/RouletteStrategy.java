@@ -48,7 +48,7 @@ public class RouletteStrategy implements ImpressionStrategy {
         /**
          * заполняем карту отрезками, длины которых равны весам баннеров
          */
-        for (Banner banner : request.getZone().getBanners()) {
+        for (Banner banner : banners) {
             bannerWeight = banner.getWeight();
             weightMap.put(totalWeight, banner);
             totalWeight += bannerWeight;
