@@ -23,7 +23,7 @@ public class LasiusServletContextListener extends GuiceServletContextListener {
         Properties conf = new Properties();
         InputStream is;
         try {
-            is = new FileInputStream("classpath:default.properties");
+            is = new FileInputStream("/Users/ilyamirin/NetBeansProjects/Lasius/LasiusNiger-worker/src/main/resources/default.properties");
             conf.load(is);
         } catch (FileNotFoundException ex) {
             log.error("Can`t load properties", ex);
