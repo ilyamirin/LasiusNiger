@@ -4,10 +4,12 @@
     <persistence-unit name="LasiusJpaUnit" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>    
         <!--jta-data-source>localmysql</jta-data-source-->
-        <class>org.lasiusniger.models.User</class>
+        <class>org.lasiusniger.models.Client</class>
         <class>org.lasiusniger.models.Zone</class>
+        <class>org.lasiusniger.models.Banner</class>
         <class>org.lasiusniger.models.Request</class>
         <class>org.lasiusniger.models.Request</class>
+        <class>org.lasiusniger.models.Guest</class>
         <properties>
             <!--property name="hibernate.archive.autodetection" value="class, hbm"/-->
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>

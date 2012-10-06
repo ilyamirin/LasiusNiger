@@ -1,10 +1,13 @@
 package org.lasiusniger.models;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -31,7 +34,7 @@ public class Zone implements Serializable {
     @Getter
     @Setter
     @ManyToOne
-    private User user;
+    private Client client;
     @Getter
     @Setter
     private Integer width;
@@ -44,6 +47,9 @@ public class Zone implements Serializable {
     private Boolean isActive;
     @Getter
     @Setter
-    @ManyToOne
-    private ImpressionStrategy startegy;
+    private String strategy;
+    @Getter
+    @Setter
+    @ManyToMany
+    private Set<Banner> banners = new HashSet<Banner>();
 }

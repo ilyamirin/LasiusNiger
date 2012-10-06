@@ -16,8 +16,8 @@ import lombok.ToString;
  */
 @ToString
 @EqualsAndHashCode(of={"email"})
-@Entity(name="users")
-public class User implements Serializable {
+@Entity(name="clients")
+public class Client implements Serializable {
 
     @Getter
     @Setter
