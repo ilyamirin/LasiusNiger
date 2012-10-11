@@ -19,7 +19,7 @@ import org.lasiusniger.models.Banner;
 import org.lasiusniger.models.Configuration;
 import org.lasiusniger.models.Guest;
 import org.lasiusniger.models.Request;
-import org.lasiusniger.models.RequestType;
+import org.lasiusniger.models.Request.RequestType;
 import org.lasiusniger.models.Zone;
 import org.lasiusniger.models.strategy.ImpressionStrategy;
 import org.lasiusniger.models.strategy.RandomStrategy;
@@ -33,9 +33,7 @@ import org.lasiusniger.models.strategy.RandomStrategy;
 public class LasuisImpressionServlet extends HttpServlet {
 
     private EntityManager em;
-    
     private Configuration conf;
-    
     private Gson gson;
 
     @Inject
@@ -46,6 +44,7 @@ public class LasuisImpressionServlet extends HttpServlet {
     }
 
     //TODO:: валидация параметров запроса
+    //TODO:: единый обработчик ошибок
     @Override
     @Transactional(rollbackOn = Exception.class)
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -57,8 +56,11 @@ public class LasuisImpressionServlet extends HttpServlet {
 
         String zoneId = req.getParameter("zoneid");
         Zone zone = em.find(Zone.class, zoneId);
+        if (zone == null) {
+            //TODO:: throw new UnknownZoneException(zone);
+        }
         request.setZone(zone);
-        
+
         String guestId = req.getParameter("guestid");
         Guest guest = em.find(Guest.class, guestId);
         if (guest == null) {
@@ -67,7 +69,7 @@ public class LasuisImpressionServlet extends HttpServlet {
             em.persist(guest);
         }
         request.setGuest(guest);
-        
+
         ImpressionStrategy strategy;
         try {
             strategy = (ImpressionStrategy) Class.forName(zone.getStrategy()).newInstance();
@@ -75,22 +77,19 @@ public class LasuisImpressionServlet extends HttpServlet {
             log.error("Oops!", ex);
             strategy = new RandomStrategy();
         }
-        
-        Banner banner = null;
-        try {
-            banner = strategy.chooseBanner(request);        
-        } catch (Exception ex) {
-            log.error("Oops!", ex);
-            //TODO:: default banner
+
+        Banner banner = strategy.chooseBanner(request);
+        if (banner == null) {
+            //TODO:: throw new NoBannerForRequestException(request);
         }
-        
+
         em.persist(request);
 
         em.getTransaction().commit();
 
         Map<String, Object> response = new HashMap<String, Object>();
         response.put("pathToBanner", conf.get("banners.path") + banner.getUUID());
-        
+
         PrintWriter out = resp.getWriter();
         out.print(gson.toJson(response));
         out.flush();
