@@ -23,9 +23,13 @@ import lombok.ToString;
  */
 @ToString
 @EqualsAndHashCode
-@Entity(name="requests")
+@Entity(name = "requests")
 public class Request implements Serializable {
 
+    public enum RequestType {
+
+        CLICK, IMPRESSION;
+    }
     @Getter
     @Setter
     @Id
@@ -34,21 +38,21 @@ public class Request implements Serializable {
     @Getter
     @Setter
     @ManyToOne
-    @JoinColumn(nullable=false)
+    @JoinColumn(nullable = false)
     private Zone zone;
     @Getter
     @Setter
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="recieved_at", nullable=false)
+    @Column(name = "recieved_at", nullable = false)
     private Date recievedAt;
     @Getter
     @Setter
     @Enumerated(EnumType.STRING)
-    @Column(nullable=false)
+    @Column(nullable = false)
     private RequestType type;
     @Getter
     @Setter
     @ManyToOne
-    @JoinColumn(nullable=false)
+    @JoinColumn(nullable = false)
     private Guest guest;
 }
