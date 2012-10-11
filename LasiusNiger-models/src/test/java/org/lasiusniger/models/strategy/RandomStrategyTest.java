@@ -7,7 +7,6 @@ import org.lasiusniger.models.Banner;
 import org.lasiusniger.models.Client;
 import org.lasiusniger.models.Request;
 import org.lasiusniger.models.Zone;
-import org.lasiusniger.models.exceptions.ZoneHasNoBannersException;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -59,13 +58,8 @@ public class RandomStrategyTest {
 
     }
 
-    @Test(expected = ZoneHasNoBannersException.class)
-    public void testEmptyZone() throws ZoneHasNoBannersException {
-        strategy.chooseBanner(request);
-    }
-
     @Test
-    public void testChooseBanner() throws ZoneHasNoBannersException {
+    public void testChooseBanner() {
         zone.setBanners(banners);
         Banner banner = strategy.chooseBanner(request);
         Assert.assertTrue(banners.contains(banner));
@@ -78,7 +72,7 @@ public class RandomStrategyTest {
      * @throws ZoneHasNoBannersException
      */
     @Test
-    public void testProbability() throws ZoneHasNoBannersException {
+    public void testProbability() {
         zone.setBanners(banners);
         Map<Banner, Integer> probabilityMap = new HashMap<Banner, Integer>();
         probabilityMap.put(banner1, 0);
