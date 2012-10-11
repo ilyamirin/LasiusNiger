@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import lombok.EqualsAndHashCode;
@@ -14,7 +15,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
-import org.lasiusniger.models.strategy.ImpressionStrategy;
 
 /**
  *
@@ -34,6 +34,7 @@ public class Zone implements Serializable {
     @Getter
     @Setter
     @ManyToOne
+    @JoinColumn(nullable=false)
     private Client client;
     @Getter
     @Setter
@@ -43,7 +44,7 @@ public class Zone implements Serializable {
     private Integer height;
     @Getter
     @Setter
-    @Column(name="is_active")
+    @Column(name="is_active", nullable=false)
     private Boolean isActive;
     @Getter
     @Setter
@@ -52,4 +53,8 @@ public class Zone implements Serializable {
     @Setter
     @ManyToMany
     private Set<Banner> banners = new HashSet<Banner>();
+    @Getter
+    @Setter
+    @Column(nullable=false)
+    private String target;
 }
